@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, deprecated_member_use, avoid_print
-
 import 'package:flutter/material.dart';
 
 import './question.dart';
@@ -29,25 +27,41 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favourite color?',
-      'What\'s your favorurite animal?',
+    const questions = [
+      {
+        'questionText': 'What\'s your favourite color?',
+        'answers': ['Black', 'Red', 'Green', 'White'],
+      },
+      {
+        'questionText': 'What\'s your favourite animal?',
+        'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion'],
+      },
+      {
+        'questionText': 'What\'s your favourite country?',
+        'answers': ['Australia', 'Canada', 'India', 'Maldives'],
+      },
     ];
-
+    // var dummy = ['hello'];
+    // dummy.add('Max');
+    // print(dummy);
+    //dummy =[];
+    //questions = [];// Does not work if questions is a const
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My App'),
+          title: const Text('My App'),
         ),
         body: Column(
           children: [
-            Question(questions[_questionIndex]),
-            //Point to the function
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-          ], //list
+            Question(
+              questions[_questionIndex]['questionText'] as String,
+            ),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
+          ],
         ),
       ),
     );
